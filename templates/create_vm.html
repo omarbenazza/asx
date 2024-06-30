@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASXP1 - Create VM</title>
+</head>
+<body>
+    <h1>Create a New VM</h1>
+    <form action="{{ url_for('create_vm') }}" method="post">
+        <label for="vm_name">VM Name:</label>
+        <input type="text" id="vm_name" name="vm_name" required>
+        <br>
+        <button type="submit">Create VM</button>
+    </form>
+</body>
+</html>
