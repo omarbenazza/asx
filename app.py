@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import atexit
-from pyVim.connect import SmartConnect, Disconnect
+from pyVim.connect import SmartConnectNoSSL, Disconnect
 from pyVmomi import vim, vmodl
+import socket
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a secure secret key
 
-# vCenter connection details
-VCENTER_HOST = None
-VCENTER_USER = None
-VCENTER_PASSWORD = None
+# vSphere connection details
+VS_HOST = None
+VS_USER = None
+VS_PASSWORD = None
 si = None
 
 @app.route('/')
@@ -18,18 +19,30 @@ def index():
 
 @app.route('/connect', methods=['GET', 'POST'])
 def connect():
-    global si, VCENTER_HOST, VCENTER_USER, VCENTER_PASSWORD
+    global si, VS_HOST, VS_USER, VS_PASSWORD
     if request.method == 'POST':
-        VCENTER_HOST = request.form.get('host')
-        VCENTER_USER = request.form.get('username')
-        VCENTER_PASSWORD = request.form.get('password')
+        VS_HOST = request.form.get('host')
+        VS_USER = request.form.get('username')
+        VS_PASSWORD = request.form.get('password')
         try:
-            si = SmartConnect(host=VCENTER_HOST, user=VCENTER_USER, pwd=VCENTER_PASSWORD)
+            # Try resolving the hostname first
+            socket.gethostbyname(VS_HOST)
+            # Try connecting to vSphere
+            si = SmartConnectNoSSL(host=VS_HOST, user=VS_USER, pwd=VS_PASSWORD)
             atexit.register(Disconnect, si)
-            flash('Connected to vCenter successfully!', 'success')
+            flash('Connected to vSphere successfully!', 'success')
             session['connected'] = True
+        except socket.gaierror as e:
+            flash(f'Address resolution error: {str(e)}', 'danger')
+            session['connected'] = False
+        except vim.fault.InvalidLogin:
+            flash('Invalid login credentials. Please check your username and password.', 'danger')
+            session['connected'] = False
+        except vim.fault.HostConnectFault as e:
+            flash(f'Host connection fault: {str(e)}', 'danger')
+            session['connected'] = False
         except Exception as e:
-            flash(f'Failed to connect to vCenter: {str(e)}', 'danger')
+            flash(f'Failed to connect to vSphere: {str(e)}', 'danger')
             session['connected'] = False
         return redirect(url_for('index'))
     return render_template('connect.html')

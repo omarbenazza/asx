@@ -2,21 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ASXP1 - Connect to vCenter</title>
+    <title>ASXP1 - Connect to vSphere</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Connect to vCenter</h1>
-    <form action="{{ url_for('connect') }}" method="post">
-        <label for="host">vCenter Host:</label>
-        <input type="text" id="host" name="host" required>
-        <br>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Connect</button>
-    </form>
+    <div class="container">
+        <h1 class="mt-5">Connect to vSphere</h1>
+        <form action="{{ url_for('connect') }}" method="post">
+            <div class="form-group">
+                <label for="host">vSphere Host (include http/https):</label>
+                <input type="text" class="form-control" id="host" name="host" required placeholder="https://vcenter.example.com">
+            </div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required placeholder="admin">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required placeholder="yourpassword">
+            </div>
+            <button type="submit" class="btn btn-primary">Connect</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

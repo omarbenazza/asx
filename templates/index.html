@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>ASXP1 - Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>ASXP1</h1>
-    <p>{{ get_flashed_messages()[0] }}</p>
-    {% if session.get('connected') %}
-        <p>Connected to vCenter</p>
-        <a href="{{ url_for('create_vm') }}">Create VM</a>
-    {% else %}
-        <p>Not connected to vCenter</p>
-        <a href="{{ url_for('connect') }}">Connect to vCenter</a>
-    {% endif %}
+    <div class="container">
+        <h1 class="mt-5">ASXP1</h1>
+        <div class="alert alert-info" role="alert">
+            {{ get_flashed_messages()[0] }}
+        </div>
+        {% if session.get('connected') %}
+            <div class="alert alert-success" role="alert">
+                Connected to vCenter
+            </div>
+            <a href="{{ url_for('create_vm') }}" class="btn btn-primary">Create VM</a>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Not connected to vCenter
+            </div>
+            <a href="{{ url_for('connect') }}" class="btn btn-primary">Connect to vCenter</a>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
