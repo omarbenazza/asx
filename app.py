@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import atexit
-from pyVim.connect import SmartConnectNoSSL, Disconnect
+from pyVim.connect import SmartConnect, Disconnect
 from pyVmomi import vim, vmodl
+import ssl
 import socket
 
 app = Flask(__name__)
@@ -27,8 +28,10 @@ def connect():
         try:
             # Try resolving the hostname first
             socket.gethostbyname(VS_HOST)
+            # Disable SSL certificate verification
+            context = ssl._create_unverified_context()
             # Try connecting to vSphere
-            si = SmartConnectNoSSL(host=VS_HOST, user=VS_USER, pwd=VS_PASSWORD)
+            si = SmartConnect(host=VS_HOST, user=VS_USER, pwd=VS_PASSWORD, sslContext=context)
             atexit.register(Disconnect, si)
             flash('Connected to vSphere successfully!', 'success')
             session['connected'] = True
