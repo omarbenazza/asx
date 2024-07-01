@@ -11,15 +11,15 @@
         <form action="{{ url_for('connect') }}" method="post">
             <div class="form-group">
                 <label for="host">vSphere Host (include http/https):</label>
-                <input type="text" class="form-control" id="host" name="host" required placeholder="https://vcenter.example.com">
+                <input type="text" class="form-control" id="host" name="host" required placeholder="https://vcenter.example.com" value="https://192.168.0.251">
             </div>
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="username" required placeholder="admin">
+                <input type="text" class="form-control" id="username" name="username" required placeholder="admin"  value="administrator@vsphere.local">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" required placeholder="yourpassword">
+                <input type="password" class="form-control" id="password" name="password" required placeholder="yourpassword" value="Time4work!">
             </div>
             <button type="submit" class="btn btn-primary">Connect</button>
         </form>
