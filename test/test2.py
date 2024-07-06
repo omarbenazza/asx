@@ -37,35 +37,34 @@ def create_vm(session_id, os):
     try:
         headers = {'vmware-api-session-id': session_id}
         data = {
-            "spec": {
-                "name": "asxtest",
-                "guest_OS": os,
-                "placement": {
-                    "datastore": "datastore-14",
-                    "folder": "group-v1010",
-                    "resource_pool": "resgroup-10"
+
+            "name": "asxtest",
+            "guest_OS": os,
+            "placement": {
+                "datastore": "datastore-14",
+                "folder": "group-v1010",
+                "resource_pool": "resgroup-10"
+            },
+            "hardware": {
+                "cpu": {
+                    "count": 2
                 },
-                "hardware": {
-                    "cpu": {
-                        "count": 2
-                    },
-                    "memory": {
-                        "size_MiB": 2048
-                    },
-                    "disks": [
-                        {
-                            "new_vmdk": {
-                                "capacity": 20 * 1024 * 1024
-                            }
+                "memory": {
+                    "size_MiB": 2048
+                },
+                "disks": [
+                    {
+                        "new_vmdk": {
+                            "capacity": 20 * 1024 * 1024
                         }
-                    ],
-                    "nics": [
-                        {
-                            "network": "palo-to-vm",
-                            "start_connected": True
-                        }
-                    ]
-                }
+                    }
+                ],
+                "nics": [
+                    {
+                        "network": "palo-to-vm",
+                        "start_connected": True
+                    }
+                ]
             }
         }
 
