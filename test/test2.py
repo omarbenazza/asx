@@ -37,11 +37,11 @@ def create_vm(session_id):
         data = {
             "spec": {
                 "name": "test-vm",
-                "guest_OS": "OTHER_64",  # Correct value for guest_OS as per the documentation
+                "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
                 "placement": {
-                    "datastore": "datastore-123",  # Replace with your actual datastore ID
-                    "folder": "Discovered virtual machine",          # Replace with your actual folder ID
-                    "cluster": "domain-c7"         # Replace with your actual cluster ID
+                    "datastore": "1TB SSD",  # Replace with your actual datastore ID
+                    "folder": "Discovered virtual machine",  # Replace with your actual folder ID
+                    "cluster": "192.168.0.250"  # Replace with your actual cluster ID
                 },
                 "hardware": {
                     "cpu": {
@@ -59,13 +59,14 @@ def create_vm(session_id):
                     ],
                     "nics": [
                         {
-                            "network": "network-123",  # Replace with your actual network ID
+                            "network": "palo-to-vm",  # Replace with your actual network ID
                             "start_connected": True
                         }
                     ]
                 }
             }
         }
+
         response = requests.post(
             f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
@@ -101,11 +102,74 @@ def list_vsphere_folders(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Function to list vSphere clusters with their identifiers
+def list_vsphere_clusters(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/vcenter/cluster",
+            headers=headers,
+            verify=False  # Disable SSL verification for simplicity
+        )
+        response.raise_for_status()
+        clusters = response.json()
+        print(f"Clusters: {json.dumps(clusters, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Function to list vSphere networks with their identifiers
+def list_vsphere_networks(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/vcenter/network",
+            headers=headers,
+            verify=False  # Disable SSL verification for simplicity
+        )
+        response.raise_for_status()
+        networks = response.json()
+        print(f"Networks: {json.dumps(networks, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Function to list vSphere datastores with their identifiers
+def list_vsphere_datastores(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/vcenter/datastore",
+            headers=headers,
+            verify=False  # Disable SSL verification for simplicity
+        )
+        response.raise_for_status()
+        datastores = response.json()
+        print(f"Datastores: {json.dumps(datastores, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
     if token:
         print("Listing folders:")
         list_vsphere_folders(token)
+        print("\nListing clusters:")
+        list_vsphere_clusters(token)
+        print("\nListing networks:")
+        list_vsphere_networks(token)
+        print("\nListing datastores:")
+        list_vsphere_datastores(token)
         print("\nCreating VM:")
         create_vm(token)
