@@ -36,12 +36,12 @@ def create_vm(session_id):
         headers = {'vmware-api-session-id': session_id}
         data = {
             "spec": {
-                "name": "test-vm",
+                "name": "test-vm-asx",
                 "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
                 "placement": {
                     "datastore": "datastore-14",  # Replace with your actual datastore ID
                     "folder": "group-v1010",  # Replace with your actual folder ID
-                    "resource_pool": "resgroup-8"  # Replace with your actual resource pool ID
+                    "resource_pool": "resgroup-10"  # Replace with your actual resource pool ID
                 },
                 "hardware": {
                     "cpu": {
