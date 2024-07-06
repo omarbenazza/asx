@@ -199,14 +199,14 @@ def get_vsphere_service_instance():
 def list_vsphere_guest_os(si):
     try:
         content = si.RetrieveContent()
-        guest_os_list = content.virtualMachineManager.QueryConfigOptionDescriptor()
+        guest_os_list = content.viewManager.CreateContainerView(content.rootFolder, [vim.HostSystem], True)
+        guest_os_descriptor = guest_os_list.view[0].capability.supportedGuestOS
 
         print("Available Guest OS Types:")
-        for os_type in guest_os_list:
-            print(f"- {os_type.id} ({os_type.description})")
+        for os_type in guest_os_descriptor:
+            print(f"- {os_type} ({os_type})")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 # Main execution
 if __name__ == "__main__":
