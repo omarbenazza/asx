@@ -199,12 +199,11 @@ def get_vsphere_service_instance():
 def list_vsphere_guest_os(si):
     try:
         content = si.RetrieveContent()
-        guest_os_manager = content.guestOperationsManager
-        guest_os_list = guest_os_manager.ListGuestOS()
+        guest_os_list = content.virtualMachineManager.QueryConfigOptionDescriptor()
 
         print("Available Guest OS Types:")
         for os_type in guest_os_list:
-            print(f"- {os_type.id} ({os_type.name})")
+            print(f"- {os_type.id} ({os_type.description})")
     except Exception as e:
         print(f"An error occurred: {e}")
 
