@@ -67,7 +67,7 @@ def create_vm(session_id):
             }
         }
         response = requests.post(
-            f"https://{VS_HOST}/api/vcenter/vm",
+            f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
             json=data,
             verify=False  # Disable SSL verification for simplicity
