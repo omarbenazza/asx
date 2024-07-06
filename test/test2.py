@@ -4,6 +4,7 @@ from pyVim.connect import SmartConnect, Disconnect
 from pyVmomi import vim
 import ssl
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import json
 
 # Disable SSL warnings
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -71,7 +72,7 @@ def create_vm(session_id, os):
         response = requests.post(
             f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
-            json=data,
+            json=json.dumps(data),
             verify=False
         )
         response.raise_for_status()
