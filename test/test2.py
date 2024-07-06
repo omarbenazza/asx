@@ -227,5 +227,6 @@ if __name__ == "__main__":
         list_vsphere_guest_os()
         print("\nCreating VM:")
         for os in ["windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
+            print("OS", os)
             if create_vm(token, os):
                 break
