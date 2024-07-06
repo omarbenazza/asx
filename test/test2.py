@@ -69,7 +69,7 @@ def create_vm(session_id, os):
         }
 
         response = requests.post(
-            f"https://{VS_HOST}/rest/vcenter/vm",
+            f"https://{VS_HOST}/api/vcenter/vm",
             headers=headers,
             json=data,
             verify=False
@@ -226,12 +226,6 @@ if __name__ == "__main__":
         list_vsphere_datastores(token)
         print("\nListing resource pools:")
         list_vsphere_resource_pools(token)
-
-        si = get_vsphere_service_instance()
-        if si:
-            print("\nListing available guest OS types:")
-            list_vsphere_guest_os(si)
-            Disconnect(si)
 
         print("\nCreating VM:")
         for os in ["UBUNTU_64"]:
