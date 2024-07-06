@@ -196,15 +196,18 @@ def get_vsphere_service_instance():
 
 
 # Function to list available guest OS types
-def list_vsphere_guest_os(si):
+def list_vsphere_guest_os(client):
     try:
-        content = si.RetrieveContent()
-        guest_os_list = content.viewManager.CreateContainerView(content.rootFolder, [vim.HostSystem], True)
-        guest_os_descriptor = guest_os_list.view[0].capability.supportedGuestOS
+        os_families = client.vcenter.Guest.OperatingSystemFamily.list()
+        os_types = client.vcenter.Guest.OperatingSystem.list()
 
-        print("Available Guest OS Types:")
-        for os_type in guest_os_descriptor:
-            print(f"- {os_type} ({os_type})")
+        print("Available Guest OS Families:")
+        for family in os_families:
+            print(f"- {family.name} ({family.id})")
+
+        print("\nAvailable Guest OS Types:")
+        for os in os_types:
+            print(f"- {os.name} ({os.id})")
     except Exception as e:
         print(f"An error occurred: {e}")
 
