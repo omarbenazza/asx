@@ -39,9 +39,9 @@ def create_vm(session_id):
                 "name": "test-vm",
                 "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
                 "placement": {
-                    "datastore": "1TB SSD",  # Replace with your actual datastore ID
-                    "folder": "Discovered virtual machine",  # Replace with your actual folder ID
-                    "cluster": "192.168.0.250"  # Replace with your actual cluster ID
+                    "datastore": "datastore-14",  # Replace with your actual datastore ID
+                    "folder": "group-v1010",  # Replace with your actual folder ID
+                    "resource_pool": "resgroup-8"  # Replace with your actual resource pool ID
                 },
                 "hardware": {
                     "cpu": {
@@ -159,6 +159,25 @@ def list_vsphere_datastores(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Function to list vSphere resource pools with their identifiers
+def list_vsphere_resource_pools(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/vcenter/resource-pool",
+            headers=headers,
+            verify=False  # Disable SSL verification for simplicity
+        )
+        response.raise_for_status()
+        resource_pools = response.json()
+        print(f"Resource Pools: {json.dumps(resource_pools, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
@@ -171,5 +190,7 @@ if __name__ == "__main__":
         list_vsphere_networks(token)
         print("\nListing datastores:")
         list_vsphere_datastores(token)
+        print("\nListing resource pools:")
+        list_vsphere_resource_pools(token)
         print("\nCreating VM:")
         create_vm(token)
