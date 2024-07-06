@@ -82,7 +82,7 @@ def create_vm(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Function to list vSphere folders
+# Function to list vSphere folders with their identifiers
 def list_vsphere_folders(session_id):
     try:
         headers = {'vmware-api-session-id': session_id}
