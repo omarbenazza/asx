@@ -40,7 +40,7 @@ def create_vm(session_id):
                 "guest_OS": "OTHER_64",  # Correct value for guest_OS as per the documentation
                 "placement": {
                     "datastore": "datastore-123",  # Replace with your actual datastore ID
-                    "folder": "group-v3",          # Replace with your actual folder ID
+                    "folder": "Discovered virtual machine",          # Replace with your actual folder ID
                     "cluster": "domain-c7"         # Replace with your actual cluster ID
                 },
                 "hardware": {
