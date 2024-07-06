@@ -182,23 +182,20 @@ def list_vsphere_resource_pools(session_id):
         print(f"An error occurred: {e}")
 
 # Function to list available guest OS
-def list_vsphere_guest_os():
-    guest_os_list = [
-        "windows7Guest",
-        "windows7Server64Guest",
-        "windows8Guest",
-        "windows8Server64Guest",
-        "windows9Guest",
-        "windows9Server64Guest",
-        "ubuntu64Guest",
-        "rhel7Guest",
-        "centos7Guest",
-        "otherGuest64"
-        # Add more as needed
-    ]
-    print("Available Guest OS:")
-    for os in guest_os_list:
-        print(f"- {os}")
+def list_vsphere_guest_os(client):
+    try:
+        os_families = client.vcenter.VM.Guest.OperatingSystemFamily.list()
+        os_types = client.vcenter.VM.Guest.OperatingSystem.list()
+
+        print("Available Guest OS Families:")
+        for family in os_families:
+            print(f"- {family.name} ({family.id})")
+
+        print("\nAvailable Guest OS Types:")
+        for os in os_types:
+            print(f"- {os.name} ({os.id})")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 # Main execution
 if __name__ == "__main__":
