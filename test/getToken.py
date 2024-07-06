@@ -13,7 +13,7 @@ VS_USER = "administrator@vsphere.local"
 VS_PASSWORD = "Time4work!"
 
 # API endpoint for creating a session
-URL = f"{VS_HOST}/rest/com/vmware/cis/session"
+URL = f"https://{VS_HOST}/rest/com/vmware/cis/session"
 
 
 # Function to get the session ID (token)
