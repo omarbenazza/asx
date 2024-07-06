@@ -37,7 +37,7 @@ def create_vm(session_id, os):
         headers = {'vmware-api-session-id': session_id}
         data = {
             "spec": {
-                "name": "test-vm-asx",
+                "name": "asxtest",
                 "guest_OS": os,
                 "placement": {
                     "datastore": "datastore-14",
@@ -69,7 +69,7 @@ def create_vm(session_id, os):
         }
 
         response = requests.post(
-            f"https://{VS_HOST}/api/vcenter/vm",
+            f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
             json=data,
             verify=False
