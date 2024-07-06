@@ -41,7 +41,7 @@ def create_vm(session_id):
                 "placement": {
                     "datastore": "1TB SSD",  # Replace with your actual datastore ID
                     "folder": "Discovered virtual machine",          # Replace with your actual folder ID
-                    "cluster": "domain-c7"         # Replace with your actual cluster ID
+                    "cluster": "192.168.0.250"         # Replace with your actual cluster ID
                 },
                 "hardware": {
                     "cpu": {
