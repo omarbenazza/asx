@@ -37,11 +37,11 @@ def create_vm(session_id):
         data = {
             "spec": {
                 "name": "test-vm",
-                "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
+                "guest_OS": "OTHER_64",  # Correct value for guest_OS as per the documentation
                 "placement": {
-                    "datastore": "1TB SSD",  # Replace with your actual datastore ID
-                    "folder": "Discovered virtual machine",          # Replace with your actual folder ID
-                    "cluster": "192.168.0.250"         # Replace with your actual cluster ID
+                    "datastore": "datastore-123",  # Replace with your actual datastore ID
+                    "folder": "group-v3",          # Replace with your actual folder ID
+                    "cluster": "domain-c7"         # Replace with your actual cluster ID
                 },
                 "hardware": {
                     "cpu": {
@@ -59,7 +59,7 @@ def create_vm(session_id):
                     ],
                     "nics": [
                         {
-                            "network": "palo-to-vm",  # Replace with your actual network ID
+                            "network": "network-123",  # Replace with your actual network ID
                             "start_connected": True
                         }
                     ]
@@ -82,8 +82,30 @@ def create_vm(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Function to list vSphere folders
+def list_vsphere_folders(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/vcenter/folder",
+            headers=headers,
+            verify=False  # Disable SSL verification for simplicity
+        )
+        response.raise_for_status()
+        folders = response.json()
+        print(f"Folders: {json.dumps(folders, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
     if token:
+        print("Listing folders:")
+        list_vsphere_folders(token)
+        print("\nCreating VM:")
         create_vm(token)
