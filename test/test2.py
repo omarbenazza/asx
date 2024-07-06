@@ -13,6 +13,7 @@ VS_PASSWORD = "Time4work!"
 # API endpoint for creating a session
 URL = f"https://{VS_HOST}/rest/com/vmware/cis/session"
 
+
 # Function to get the session ID (token)
 def get_vsphere_token():
     try:
@@ -30,14 +31,15 @@ def get_vsphere_token():
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to create a VM
-def create_vm(session_id):
+def create_vm(session_id, os):
     try:
         headers = {'vmware-api-session-id': session_id}
         data = {
             "spec": {
                 "name": "test-vm-asx",
-                "guest_OS": "ubuntu64Guest",  # Correct value for guest_OS as per the documentation
+                "guest_OS": os,  # Correct value for guest_OS as per the documentation
                 "placement": {
                     "datastore": "datastore-14",  # Replace with your actual datastore ID
                     "folder": "group-v1010",  # Replace with your actual folder ID
@@ -76,12 +78,16 @@ def create_vm(session_id):
         response.raise_for_status()
         result = response.json()
         print(f"VM creation result: {json.dumps(result, indent=4)}")
+        return True
     except requests.HTTPError as e:
         print(f"HTTP error occurred: {e}")
         if e.response.content:
             print(f"Error content: {e.response.content.decode()}")
+        return False
     except Exception as e:
         print(f"An error occurred: {e}")
+        return False
+
 
 # Function to list vSphere folders with their identifiers
 def list_vsphere_folders(session_id):
@@ -102,6 +108,7 @@ def list_vsphere_folders(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list vSphere clusters with their identifiers
 def list_vsphere_clusters(session_id):
     try:
@@ -120,6 +127,7 @@ def list_vsphere_clusters(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 # Function to list vSphere networks with their identifiers
 def list_vsphere_networks(session_id):
@@ -140,6 +148,7 @@ def list_vsphere_networks(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list vSphere datastores with their identifiers
 def list_vsphere_datastores(session_id):
     try:
@@ -158,6 +167,7 @@ def list_vsphere_datastores(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 # Function to list vSphere resource pools with their identifiers
 def list_vsphere_resource_pools(session_id):
@@ -178,6 +188,7 @@ def list_vsphere_resource_pools(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list available guest OS
 def list_vsphere_guest_os():
     guest_os_list = [
@@ -197,6 +208,7 @@ def list_vsphere_guest_os():
     for os in guest_os_list:
         print(f"- {os}")
 
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
@@ -214,4 +226,6 @@ if __name__ == "__main__":
         print("\nListing available guest OS:")
         list_vsphere_guest_os()
         print("\nCreating VM:")
-        create_vm(token)
+        for os in ["windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
+            if create_vm(token, os):
+                break
