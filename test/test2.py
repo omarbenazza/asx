@@ -211,6 +211,7 @@ def list_vsphere_guest_os(client):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
@@ -233,7 +234,7 @@ if __name__ == "__main__":
             Disconnect(si)
 
         print("\nCreating VM:")
-        for os in ["windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
+        for os in ["Ubuntu Linux (64-bit)", "windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
             print("OS", os)
             if create_vm(token, os):
                 break
