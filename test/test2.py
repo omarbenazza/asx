@@ -1,8 +1,5 @@
 import requests
 import json
-from com.vmware.vsphere.vcenter_client import VM
-from com.vmware.vcenter.vm.guest_client import OperatingSystem
-from vmware.vapi.vsphere.client import create_vsphere_client
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 # Disable SSL warnings
@@ -16,31 +13,18 @@ VS_PASSWORD = "Time4work!"
 # API endpoint for creating a session
 URL = f"https://{VS_HOST}/rest/com/vmware/cis/session"
 
-
-def get_vsphere_client():
-    session = requests.session()
-    session.verify = False
-    client = create_vsphere_client(server=VS_HOST, username=VS_USER, password=VS_PASSWORD, session=session)
-    return client
-
-
 # Function to get the session ID (token)
 def get_vsphere_token():
     try:
-        # Create a session and authenticate
         response = requests.post(URL, auth=(VS_USER, VS_PASSWORD), verify=False)
         response.raise_for_status()
-
-        # Extract the session ID (token)
         session_id = response.json()['value']
         print(f"Session ID (Token): {session_id}")
-
         return session_id
     except requests.HTTPError as e:
         print(f"HTTP error occurred: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 # Function to create a VM
 def create_vm(session_id, os):
@@ -49,11 +33,11 @@ def create_vm(session_id, os):
         data = {
             "spec": {
                 "name": "test-vm-asx",
-                "guest_OS": os,  # Correct value for guest_OS as per the documentation
+                "guest_OS": os,
                 "placement": {
-                    "datastore": "datastore-14",  # Replace with your actual datastore ID
-                    "folder": "group-v1010",  # Replace with your actual folder ID
-                    "resource_pool": "resgroup-10"  # Replace with your actual resource pool ID
+                    "datastore": "datastore-14",
+                    "folder": "group-v1010",
+                    "resource_pool": "resgroup-10"
                 },
                 "hardware": {
                     "cpu": {
@@ -71,7 +55,7 @@ def create_vm(session_id, os):
                     ],
                     "nics": [
                         {
-                            "network": "palo-to-vm",  # Replace with your actual network ID
+                            "network": "palo-to-vm",
                             "start_connected": True
                         }
                     ]
@@ -83,7 +67,7 @@ def create_vm(session_id, os):
             f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
             json=data,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         result = response.json()
@@ -98,7 +82,6 @@ def create_vm(session_id, os):
         print(f"An error occurred: {e}")
         return False
 
-
 # Function to list vSphere folders with their identifiers
 def list_vsphere_folders(session_id):
     try:
@@ -106,7 +89,7 @@ def list_vsphere_folders(session_id):
         response = requests.get(
             f"https://{VS_HOST}/rest/vcenter/folder",
             headers=headers,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         folders = response.json()
@@ -118,7 +101,6 @@ def list_vsphere_folders(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere clusters with their identifiers
 def list_vsphere_clusters(session_id):
     try:
@@ -126,7 +108,7 @@ def list_vsphere_clusters(session_id):
         response = requests.get(
             f"https://{VS_HOST}/rest/vcenter/cluster",
             headers=headers,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         clusters = response.json()
@@ -138,7 +120,6 @@ def list_vsphere_clusters(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere networks with their identifiers
 def list_vsphere_networks(session_id):
     try:
@@ -146,7 +127,7 @@ def list_vsphere_networks(session_id):
         response = requests.get(
             f"https://{VS_HOST}/rest/vcenter/network",
             headers=headers,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         networks = response.json()
@@ -158,7 +139,6 @@ def list_vsphere_networks(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere datastores with their identifiers
 def list_vsphere_datastores(session_id):
     try:
@@ -166,7 +146,7 @@ def list_vsphere_datastores(session_id):
         response = requests.get(
             f"https://{VS_HOST}/rest/vcenter/datastore",
             headers=headers,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         datastores = response.json()
@@ -178,7 +158,6 @@ def list_vsphere_datastores(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere resource pools with their identifiers
 def list_vsphere_resource_pools(session_id):
     try:
@@ -186,7 +165,7 @@ def list_vsphere_resource_pools(session_id):
         response = requests.get(
             f"https://{VS_HOST}/rest/vcenter/resource-pool",
             headers=headers,
-            verify=False  # Disable SSL verification for simplicity
+            verify=False
         )
         response.raise_for_status()
         resource_pools = response.json()
@@ -198,23 +177,23 @@ def list_vsphere_resource_pools(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
-# Function to list available guest OS families and OS types
-def list_vsphere_guest_os(client):
-    try:
-        os_families = client.vcenter.VM.Guest.OperatingSystemFamily.list()
-        os_types = client.vcenter.VM.Guest.OperatingSystem.list()
-
-        print("Available Guest OS Families:")
-        for family in os_families:
-            print(f"- {family.name} ({family.id})")
-
-        print("\nAvailable Guest OS Types:")
-        for os in os_types:
-            print(f"- {os.name} ({os.id})")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
+# Predefined list of common guest OS types
+def list_vsphere_guest_os():
+    guest_os_list = [
+        "windows7Guest",
+        "windows7Server64Guest",
+        "windows8Guest",
+        "windows8Server64Guest",
+        "windows9Guest",
+        "windows9Server64Guest",
+        "ubuntu64Guest",
+        "rhel7Guest",
+        "centos7Guest",
+        "otherGuest64"
+    ]
+    print("Available Guest OS:")
+    for os in guest_os_list:
+        print(f"- {os}")
 
 # Main execution
 if __name__ == "__main__":
@@ -230,11 +209,8 @@ if __name__ == "__main__":
         list_vsphere_datastores(token)
         print("\nListing resource pools:")
         list_vsphere_resource_pools(token)
-
-        client = get_vsphere_client()
-        print("\nListing available guest OS families and OS types:")
-        list_vsphere_guest_os(client)
-
+        #print("\nListing available guest OS:")
+        #list_vsphere_guest_os()
         print("\nCreating VM:")
         for os in ["windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
             print("OS", os)
