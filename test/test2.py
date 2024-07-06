@@ -37,10 +37,10 @@ def create_vm(session_id):
         data = {
             "spec": {
                 "name": "test-vm",
-                "guest_OS": "OTHER_64",  # Correct value for guest_OS as per the documentation
+                "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
                 "placement": {
-                    "datastore": "datastore-123",  # Replace with your actual datastore ID
-                    "folder": "group-v3",          # Replace with your actual folder ID
+                    "datastore": "1TB SSD",  # Replace with your actual datastore ID
+                    "folder": "3159",          # Replace with your actual folder ID
                     "cluster": "domain-c7"         # Replace with your actual cluster ID
                 },
                 "hardware": {
@@ -59,7 +59,7 @@ def create_vm(session_id):
                     ],
                     "nics": [
                         {
-                            "network": "network-123",  # Replace with your actual network ID
+                            "network": "palo-to-vm",  # Replace with your actual network ID
                             "start_connected": True
                         }
                     ]
