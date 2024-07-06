@@ -1,7 +1,5 @@
 import requests
 import json
-import ssl
-import atexit
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 # Disable SSL warnings
@@ -39,11 +37,11 @@ def create_vm(session_id):
         data = {
             "spec": {
                 "name": "test-vm",
-                "guest_OS": "otherGuest64",
+                "guest_OS": "OTHER_64",  # Correct value for guest_OS as per the documentation
                 "placement": {
-                    "datacenter": "datacenter-2",  # Replace with your actual datacenter ID or name
-                    "folder": "group-v3",          # Replace with your actual folder ID or name
-                    "resource_pool": "resgroup-8"  # Replace with your actual resource pool ID or name
+                    "datastore": "datastore-123",  # Replace with your actual datastore ID
+                    "folder": "group-v3",          # Replace with your actual folder ID
+                    "cluster": "domain-c7"         # Replace with your actual cluster ID
                 },
                 "hardware": {
                     "cpu": {
@@ -51,7 +49,20 @@ def create_vm(session_id):
                     },
                     "memory": {
                         "size_MiB": 2048
-                    }
+                    },
+                    "disks": [
+                        {
+                            "new_vmdk": {
+                                "capacity": 20 * 1024 * 1024
+                            }
+                        }
+                    ],
+                    "nics": [
+                        {
+                            "network": "network-123",  # Replace with your actual network ID
+                            "start_connected": True
+                        }
+                    ]
                 }
             }
         }
@@ -66,6 +77,8 @@ def create_vm(session_id):
         print(f"VM creation result: {json.dumps(result, indent=4)}")
     except requests.HTTPError as e:
         print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
