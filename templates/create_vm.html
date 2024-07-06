@@ -25,31 +25,27 @@
                 <label for="vm_guest_os">Guest OS:</label>
                 <input type="text" class="form-control" id="vm_guest_os" name="vm_guest_os" required>
             </div>
+            <div class="form-group">
+                <label for="datacenter">Datacenter:</label>
+                <input type="text" class="form-control" id="datacenter" name="datacenter" required>
+            </div>
+            <div class="form-group">
+                <label for="folder">VM Folder:</label>
+                <input type="text" class="form-control" id="folder" name="folder" required>
+            </div>
+            <div class="form-group">
+                <label for="resource_pool">Resource Pool:</label>
+                <input type="text" class="form-control" id="resource_pool" name="resource_pool" required>
+            </div>
             <button type="submit" class="btn btn-primary">Create VM</button>
         </form>
+
+        {% if response %}
         <div class="mt-5">
-            <h2>Previous VM Creations</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>VM Name</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>IP Address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for vm in vms %}
-                    <tr>
-                        <td>{{ vm.name }}</td>
-                        <td>{{ vm.status }}</td>
-                        <td>{{ vm.date }}</td>
-                        <td>{{ vm.ip }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h2>API Response</h2>
+            <pre>{{ response }}</pre>
         </div>
+        {% endif %}
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
