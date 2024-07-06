@@ -37,7 +37,7 @@ def create_vm(session_id):
         data = {
             "spec": {
                 "name": "test-vm-asx",
-                "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
+                "guest_OS": "ubuntu64Guest",  # Correct value for guest_OS as per the documentation
                 "placement": {
                     "datastore": "datastore-14",  # Replace with your actual datastore ID
                     "folder": "group-v1010",  # Replace with your actual folder ID
@@ -178,6 +178,25 @@ def list_vsphere_resource_pools(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Function to list available guest OS
+def list_vsphere_guest_os():
+    guest_os_list = [
+        "windows7Guest",
+        "windows7Server64Guest",
+        "windows8Guest",
+        "windows8Server64Guest",
+        "windows9Guest",
+        "windows9Server64Guest",
+        "ubuntu64Guest",
+        "rhel7Guest",
+        "centos7Guest",
+        "otherGuest64"
+        # Add more as needed
+    ]
+    print("Available Guest OS:")
+    for os in guest_os_list:
+        print(f"- {os}")
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
@@ -192,5 +211,7 @@ if __name__ == "__main__":
         list_vsphere_datastores(token)
         print("\nListing resource pools:")
         list_vsphere_resource_pools(token)
+        print("\nListing available guest OS:")
+        list_vsphere_guest_os()
         print("\nCreating VM:")
         create_vm(token)
