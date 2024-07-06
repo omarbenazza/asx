@@ -1,5 +1,8 @@
 import requests
 import json
+from pyVim.connect import SmartConnect, Disconnect
+from pyVmomi import vim
+import ssl
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 # Disable SSL warnings
@@ -13,6 +16,7 @@ VS_PASSWORD = "Time4work!"
 # API endpoint for creating a session
 URL = f"https://{VS_HOST}/rest/com/vmware/cis/session"
 
+
 # Function to get the session ID (token)
 def get_vsphere_token():
     try:
@@ -25,6 +29,7 @@ def get_vsphere_token():
         print(f"HTTP error occurred: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 # Function to create a VM
 def create_vm(session_id, os):
@@ -82,6 +87,7 @@ def create_vm(session_id, os):
         print(f"An error occurred: {e}")
         return False
 
+
 # Function to list vSphere folders with their identifiers
 def list_vsphere_folders(session_id):
     try:
@@ -100,6 +106,7 @@ def list_vsphere_folders(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 # Function to list vSphere clusters with their identifiers
 def list_vsphere_clusters(session_id):
@@ -120,6 +127,7 @@ def list_vsphere_clusters(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list vSphere networks with their identifiers
 def list_vsphere_networks(session_id):
     try:
@@ -138,6 +146,7 @@ def list_vsphere_networks(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
+
 
 # Function to list vSphere datastores with their identifiers
 def list_vsphere_datastores(session_id):
@@ -158,6 +167,7 @@ def list_vsphere_datastores(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list vSphere resource pools with their identifiers
 def list_vsphere_resource_pools(session_id):
     try:
@@ -177,23 +187,27 @@ def list_vsphere_resource_pools(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Predefined list of common guest OS types
-def list_vsphere_guest_os():
-    guest_os_list = [
-        "windows7Guest",
-        "windows7Server64Guest",
-        "windows8Guest",
-        "windows8Server64Guest",
-        "windows9Guest",
-        "windows9Server64Guest",
-        "ubuntu64Guest",
-        "rhel7Guest",
-        "centos7Guest",
-        "otherGuest64"
-    ]
-    print("Available Guest OS:")
-    for os in guest_os_list:
-        print(f"- {os}")
+
+# Function to connect to vSphere using pyVmomi
+def get_vsphere_service_instance():
+    context = ssl._create_unverified_context()
+    si = SmartConnect(host=VS_HOST, user=VS_USER, pwd=VS_PASSWORD, sslContext=context)
+    return si
+
+
+# Function to list available guest OS types
+def list_vsphere_guest_os(si):
+    try:
+        content = si.RetrieveContent()
+        guest_os_manager = content.guestOperationsManager
+        guest_os_list = guest_os_manager.ListGuestOS()
+
+        print("Available Guest OS Types:")
+        for os_type in guest_os_list:
+            print(f"- {os_type.id} ({os_type.name})")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 # Main execution
 if __name__ == "__main__":
@@ -209,8 +223,13 @@ if __name__ == "__main__":
         list_vsphere_datastores(token)
         print("\nListing resource pools:")
         list_vsphere_resource_pools(token)
-        #print("\nListing available guest OS:")
-        #list_vsphere_guest_os()
+
+        si = get_vsphere_service_instance()
+        if si:
+            print("\nListing available guest OS types:")
+            list_vsphere_guest_os(si)
+            Disconnect(si)
+
         print("\nCreating VM:")
         for os in ["windows7Guest", "rhel7Guest", "centos7Guest", "ubuntu64Guest"]:
             print("OS", os)
