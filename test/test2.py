@@ -13,7 +13,6 @@ VS_PASSWORD = "Time4work!"
 # API endpoint for creating a session
 URL = f"https://{VS_HOST}/rest/com/vmware/cis/session"
 
-
 # Function to get the session ID (token)
 def get_vsphere_token():
     try:
@@ -30,7 +29,6 @@ def get_vsphere_token():
         print(f"HTTP error occurred: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 # Function to create a VM
 def create_vm(session_id, os):
@@ -88,7 +86,6 @@ def create_vm(session_id, os):
         print(f"An error occurred: {e}")
         return False
 
-
 # Function to list vSphere folders with their identifiers
 def list_vsphere_folders(session_id):
     try:
@@ -107,7 +104,6 @@ def list_vsphere_folders(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 # Function to list vSphere clusters with their identifiers
 def list_vsphere_clusters(session_id):
@@ -128,7 +124,6 @@ def list_vsphere_clusters(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere networks with their identifiers
 def list_vsphere_networks(session_id):
     try:
@@ -147,7 +142,6 @@ def list_vsphere_networks(session_id):
             print(f"Error content: {e.response.content.decode()}")
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 # Function to list vSphere datastores with their identifiers
 def list_vsphere_datastores(session_id):
@@ -168,7 +162,6 @@ def list_vsphere_datastores(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list vSphere resource pools with their identifiers
 def list_vsphere_resource_pools(session_id):
     try:
@@ -188,7 +181,6 @@ def list_vsphere_resource_pools(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
 # Function to list available guest OS
 def list_vsphere_guest_os():
     guest_os_list = [
@@ -207,7 +199,6 @@ def list_vsphere_guest_os():
     print("Available Guest OS:")
     for os in guest_os_list:
         print(f"- {os}")
-
 
 # Main execution
 if __name__ == "__main__":
