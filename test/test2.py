@@ -234,8 +234,7 @@ if __name__ == "__main__":
             Disconnect(si)
 
         print("\nCreating VM:")
-        for os in ["UBUNTU_64", "Ubuntu Linux (64-bit)", "windows7Guest", "rhel7Guest", "centos7Guest",
-                   "ubuntu64Guest"]:
+        for os in ["UBUNTU_64"]:
             print("OS", os)
             if create_vm(token, os):
                 break
