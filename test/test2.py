@@ -40,7 +40,7 @@ def create_vm(session_id):
                 "guest_OS": "Ubuntu Linux (64-bit)",  # Correct value for guest_OS as per the documentation
                 "placement": {
                     "datastore": "1TB SSD",  # Replace with your actual datastore ID
-                    "folder": "3159",          # Replace with your actual folder ID
+                    "folder": "Discovered virtual machine",          # Replace with your actual folder ID
                     "cluster": "domain-c7"         # Replace with your actual cluster ID
                 },
                 "hardware": {
