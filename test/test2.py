@@ -46,7 +46,7 @@ def create_vm(session_id, os):
             "spec": {
                 # "com.vmware.vcenter.VM.create_spec": {
                 "name": "asxtest",
-                "guest_OS": "ubuntuGuest",  # Replace with appropriate guest OS
+                "guest_OS": "UBUNTU_64",  # Replace with appropriate guest OS
                 "placement": {
                     "datastore": "datastore-14",
                     "folder": "group-v1010",
