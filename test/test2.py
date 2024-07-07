@@ -60,6 +60,7 @@ def list_vsphere_hosts(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to create a VM
 def create_vm(session_id, os):
     try:
@@ -74,31 +75,11 @@ def create_vm(session_id, os):
                     "folder": "group-v1010",
                     "resource_pool": "resgroup-10",
                     "host": "host-11",
-                    #"cluster": "domain-c4010",
+                    # "cluster": "domain-c4010",
                     "datastore": "datastore-14"
 
-                },
-                "hardware": {
-                    "cpu": {
-                        "count": 2
-                    },
-                    "memory": {
-                        "size_MiB": 2048
-                    },
-                    "disks": [
-                        {
-                            "new_vmdk": {
-                                "capacity": 20 * 1024 * 1024
-                            }
-                        }
-                    ],
-                    "nics": [
-                        {
-                            "network": "palo-to-vm",
-                            "start_connected": True
-                        }
-                    ]
                 }
+
             }
         }
         #  }
