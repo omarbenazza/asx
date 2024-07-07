@@ -76,7 +76,7 @@ def create_vm(session_id, os):
                     "resource_pool": "resgroup-10",
                     "host": "host-11",
                     # "cluster": "domain-c4010",
-                    "datastore": "datastore-14"
+                    "datastore": "datastore-13"
 
                 }
 
