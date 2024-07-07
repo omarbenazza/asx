@@ -45,33 +45,11 @@ def create_vm(session_id, os):
             # "operation-input": {
             "spec": {
                 # "com.vmware.vcenter.VM.create_spec": {
-                "name": "asxtest",
                 "guest_OS": "UBUNTU_64",  # Replace with appropriate guest OS
                 "placement": {
                     "datastore": "datastore-14",
                     "folder": "group-v1010",
                     "resource_pool": "resgroup-10"
-                },
-                "hardware": {
-                    "cpu": {
-                        "count": 2
-                    },
-                    "memory": {
-                        "size_MiB": 2048
-                    },
-                    "disks": [
-                        {
-                            "new_vmdk": {
-                                "capacity": 20 * 1024 * 1024
-                            }
-                        }
-                    ],
-                    "nics": [
-                        {
-                            "network": "palo-to-vm",
-                            "start_connected": True
-                        }
-                    ]
                 }
             }
         }
