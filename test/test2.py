@@ -65,6 +65,167 @@ def list_vsphere_hosts(session_id):
 def create_vm(session_id, os):
     try:
         headers = {'vmware-api-session-id': session_id, 'Content-Type': 'application/json'}
+        d = {
+            "spec": {
+                "boot": {
+                    "delay": 0,
+                    "efi_legacy_boot": False,
+                    "enter_setup_mode": False,
+                    "network_protocol": {
+                    },
+                    "retry": False,
+                    "retry_delay": 0,
+                    "type": {
+                    }
+                },
+                "boot_devices": [{
+                    "type": {
+                    }
+                }],
+                "cdroms": [{
+                    "allow_guest_control": False,
+                    "backing": {
+                        "device_access_type": {
+                        },
+                        "host_device": "",
+                        "iso_file": "",
+                        "type": {
+                        }
+                    },
+                    "ide": {
+                        "master": False,
+                        "primary": False
+                    },
+                    "sata": {
+                        "bus": 0,
+                        "unit": 0
+                    },
+                    "start_connected": False,
+                    "type": {
+                    }
+                }],
+                "cpu": {
+                    "cores_per_socket": 0,
+                    "count": 0,
+                    "hot_add_enabled": False,
+                    "hot_remove_enabled": False
+                },
+                "disks": [{
+                    "backing": {
+                        "type": {
+                        },
+                        "vmdk_file": ""
+                    },
+                    "ide": {
+                        "master": False,
+                        "primary": False
+                    },
+                    "new_vmdk": {
+                        "capacity": 0,
+                        "name": "",
+                        "storage_policy": {
+                            "policy": ""
+                        }
+                    },
+                    "sata": {
+                        "bus": 0,
+                        "unit": 0
+                    },
+                    "scsi": {
+                        "bus": 0,
+                        "unit": 0
+                    },
+                    "type": {
+                    }
+                }],
+                "floppies": [{
+                    "allow_guest_control": False,
+                    "backing": {
+                        "host_device": "",
+                        "image_file": "",
+                        "type": {
+                        }
+                    },
+                    "start_connected": False
+                }],
+                "guest_OS": {
+                },
+                "hardware_version": {
+                },
+                "memory": {
+                    "hot_add_enabled": False,
+                    "size_MiB": 0
+                },
+                "name": "",
+                "nics": [{
+                    "allow_guest_control": False,
+                    "backing": {
+                        "distributed_port": "",
+                        "network": "",
+                        "type": {
+                        }
+                    },
+                    "mac_address": "",
+                    "mac_type": {
+                    },
+                    "pci_slot_number": 0,
+                    "start_connected": False,
+                    "type": {
+                    },
+                    "upt_compatibility_enabled": False,
+                    "wake_on_lan_enabled": False
+                }],
+                "parallel_ports": [{
+                    "allow_guest_control": False,
+                    "backing": {
+                        "file": "",
+                        "host_device": "",
+                        "type": {
+                        }
+                    },
+                    "start_connected": False
+                }],
+                "placement": {
+                    "cluster": "",
+                    "datastore": "",
+                    "folder": "",
+                    "host": "",
+                    "resource_pool": ""
+                },
+                "sata_adapters": [{
+                    "bus": 0,
+                    "pci_slot_number": 0,
+                    "type": {
+                    }
+                }],
+                "scsi_adapters": [{
+                    "bus": 0,
+                    "pci_slot_number": 0,
+                    "sharing": {
+                    },
+                    "type": {
+                    }
+                }],
+                "serial_ports": [{
+                    "allow_guest_control": False,
+                    "backing": {
+                        "file": "",
+                        "host_device": "",
+                        "network_location": "",
+                        "no_rx_loss": False,
+                        "pipe": "",
+                        "proxy": "",
+                        "type": {
+                        }
+                    },
+                    "start_connected": False,
+                    "yield_on_poll": False
+                }],
+                "storage_policy": {
+                    "policy": ""
+                }
+            }
+        }
         data = {
             # "operation-input": {
             "spec": {
@@ -229,7 +390,7 @@ def list_vsphere_resource_pools(session_id):
     try:
         headers = {'vmware-api-session-id': session_id}
         response = requests.get(
-            f"https://{VS_HOST}/rest/vcenter/resource-pool",
+            f"http://{VS_HOST}/rest/vcenter/resource-pool",
             headers=headers,
             verify=False
         )
