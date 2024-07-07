@@ -73,7 +73,7 @@ def create_vm(session_id, os):
                 "placement": {
                     "folder": "group-v1010",
                     "resource_pool": "resgroup-10",
-                    "host": "192.168.0.250",
+                    "host": "host-11",
                     "cluster": "",
                     "datastore": "datastore-14"
 
