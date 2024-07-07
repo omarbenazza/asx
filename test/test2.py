@@ -88,7 +88,7 @@ def create_vm(session_id, os):
                 "disks": [
                     {
                         "new_vmdk": {
-                            "capacity": 20 * 1024 * 1024
+                            "capacity": 20 * 1024
                         }
                     }
                 ],
