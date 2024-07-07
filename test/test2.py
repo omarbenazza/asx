@@ -42,7 +42,7 @@ def create_vm(session_id, os):
     try:
         headers = {'vmware-api-session-id': session_id, 'Content-Type': 'application/json'}
         data = {
-            "spec": {
+
                 "name": "asxtest",
                 "guest_OS": os,
                 "placement": {
@@ -71,7 +71,7 @@ def create_vm(session_id, os):
                         }
                     ]
                 }
-            }
+
         }
 
         response = requests.post(
