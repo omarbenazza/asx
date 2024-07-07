@@ -153,6 +153,7 @@ def create_vm(session_id, os):
                     "pci_slot_number": 32
                 }
             ],
+
             "scsi_adapters": [
                 {
                     "type": "pvscsi",
