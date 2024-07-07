@@ -105,7 +105,7 @@ def create_vm(session_id, os):
         # }
 
         response = requests.post(
-            f"https://{VS_HOST}/rest/vcenter/vm",
+            f"https://{VS_HOST}/api/vcenter/vm",
             headers=headers,
             # json=json.dumps(data),
             json=data,
