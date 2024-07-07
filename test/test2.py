@@ -74,7 +74,7 @@ def create_vm(session_id, os):
                     "folder": "group-v1010",
                     "resource_pool": "resgroup-10",
                     "host": "host-11",
-                    "cluster": "ASX",
+                    "cluster": "domain-c4010",
                     "datastore": "datastore-14"
 
                 },
