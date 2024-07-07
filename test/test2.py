@@ -271,6 +271,7 @@ def list_vsphere_guest_os(client):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Function to list all available services on vSphere
 def list_vsphere_services(session_id):
     try:
@@ -294,6 +295,7 @@ def list_vsphere_services(session_id):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 # Main execution
 if __name__ == "__main__":
     token = get_vsphere_token()
@@ -310,8 +312,8 @@ if __name__ == "__main__":
         list_vsphere_resource_pools(token)
         print("\nListing hosts:")
         list_vsphere_hosts(token)
-        print("\nListing services:")
-        list_vsphere_services(token)
+        # print("\nListing services:")
+        # list_vsphere_services(token)
         print("\nCreating VM:")
         for os in ["UBUNTU_64"]:
             print("OS", os)
