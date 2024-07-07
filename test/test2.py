@@ -73,7 +73,7 @@ def create_vm(session_id, os):
                 "guest_OS": "UBUNTU_64",  # Replace with appropriate guest OS
                 "placement": {
                     "folder": "group-v1010",
-                    "resource_pool": "resgroup-10",
+                    #"resource_pool": "resgroup-10",
                     "host": "host-11",
                     # "cluster": "domain-c4010",
                     "datastore": "datastore-13"
