@@ -271,6 +271,28 @@ def list_vsphere_guest_os(client):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# Function to list all available services on vSphere
+def list_vsphere_services(session_id):
+    try:
+        headers = {'vmware-api-session-id': session_id}
+        response = requests.get(
+            f"https://{VS_HOST}/rest/com/vmware/cis/session",
+            headers=headers,
+            verify=False
+        )
+        response.raise_for_status()
+        services = response.json()
+        print(f"Services: {json.dumps(services, indent=4)}")
+    except requests.HTTPError as e:
+        print(f"HTTP error occurred: {e}")
+        if e.response.content:
+            try:
+                error_content = json.loads(e.response.content)
+                print(json.dumps(error_content, indent=4))
+            except json.JSONDecodeError:
+                print(e.response.content.decode())
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 # Main execution
 if __name__ == "__main__":
@@ -288,6 +310,8 @@ if __name__ == "__main__":
         list_vsphere_resource_pools(token)
         print("\nListing hosts:")
         list_vsphere_hosts(token)
+        print("\nListing services:")
+        list_vsphere_services(token)
         print("\nCreating VM:")
         for os in ["UBUNTU_64"]:
             print("OS", os)
