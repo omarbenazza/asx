@@ -40,137 +40,135 @@ def create_vm(session_id, os):
     try:
         headers = {'vmware-api-session-id': session_id, 'Content-Type': 'application/json'}
         data = {
-            "spec": {
-                "guest_OS": os,  # Update with the appropriate OS
-                "name": "asxtest",
-                "placement": {
-                    "folder": "group-v1010",  # Update with your actual folder ID
-                    "resource_pool": "resgroup-10",  # Update with your actual resource pool ID
-                    "host": "192.168.0.250",  # Update with your actual host ID
-                    # "cluster": "cluster-01",  # Update with your actual cluster ID
-                    "datastore": "datastore-14"  # Update with your actual datastore ID
-                },
-                "hardware_version": "vmx-15",  # Update with the appropriate hardware version if needed
-                "boot": {
-                    "type": "bios",  # or "efi"
-                    "efi_legacy_boot": False,
-                    "network_protocol": "ipv4",  # or "ipv6"
-                    "delay": 0,
-                    "retry": False,
-                    "retry_delay": 0,
-                    "enter_setup_mode": False
-                },
-                "boot_devices": [
-                    {
-                        "type": "disk"  # or "cdrom", "network", etc.
-                    }
-                ],
-                "cpu": {
-                    "count": 2,
-                    "cores_per_socket": 1,
-                    "hot_add_enabled": False,
-                    "hot_remove_enabled": False
-                },
-                "memory": {
-                    "size_MiB": 2048,
-                    "hot_add_enabled": False
-                },
-                "disks": [
-                    {
-                        "type": "new_vmdk",
-                        "new_vmdk": {
-                            "name": "disk1",
-                            "capacity": 20 * 1024 * 1024,
-                            "storage_policy": {
-                                "policy": "policy-123"  # Update with your actual storage policy ID
-                            }
+            "guest_OS": os,  # Update with the appropriate OS
+            "name": "asxtest",
+            "placement": {
+                "folder": "group-v1010",  # Update with your actual folder ID
+                "resource_pool": "resgroup-10",  # Update with your actual resource pool ID
+                "host": "192.168.0.250",  # Update with your actual host ID
+                # "cluster": "cluster-01",  # Update with your actual cluster ID
+                "datastore": "datastore-14"  # Update with your actual datastore ID
+            },
+            "hardware_version": "vmx-15",  # Update with the appropriate hardware version if needed
+            "boot": {
+                "type": "bios",  # or "efi"
+                "efi_legacy_boot": False,
+                "network_protocol": "ipv4",  # or "ipv6"
+                "delay": 0,
+                "retry": False,
+                "retry_delay": 0,
+                "enter_setup_mode": False
+            },
+            "boot_devices": [
+                {
+                    "type": "disk"  # or "cdrom", "network", etc.
+                }
+            ],
+            "cpu": {
+                "count": 2,
+                "cores_per_socket": 1,
+                "hot_add_enabled": False,
+                "hot_remove_enabled": False
+            },
+            "memory": {
+                "size_MiB": 2048,
+                "hot_add_enabled": False
+            },
+            "disks": [
+                {
+                    "type": "new_vmdk",
+                    "new_vmdk": {
+                        "name": "disk1",
+                        "capacity": 20 * 1024 * 1024,
+                        "storage_policy": {
+                            "policy": "policy-123"  # Update with your actual storage policy ID
                         }
                     }
-                ],
-                "nics": [
-                    {
-                        "type": "vmxnet3",  # or "e1000", "e1000e", etc.
-                        "upt_compatibility_enabled": False,
-                        "mac_type": "manual",
-                        "mac_address": "00:50:56:XX:YY:ZZ",  # Update with your actual MAC address
-                        "pci_slot_number": 160,
-                        "wake_on_lan_enabled": True,
-                        "backing": {
-                            "type": "standard_portgroup",
-                            "network": "palo-to-vm",  # Update with your actual network ID
-                            "distributed_port": ""  # If using distributed port
-                        },
-                        "start_connected": True,
-                        "allow_guest_control": True
-                    }
-                ],
-                "cdroms": [
-                    {
-                        "type": "iso",
-                        "backing": {
-                            "type": "iso_file",
-                            "iso_file": "[datastore1] iso/ubuntu.iso",  # Update with your actual ISO path
-                            "device_access_type": "readOnly"
-                        },
-                        "start_connected": True,
-                        "allow_guest_control": True
-                    }
-                ],
-                "floppies": [
-                    {
-                        "backing": {
-                            "type": "image_file",
-                            "image_file": "[datastore1] floppies/dos.img"  # Update with your actual image file path
-                        },
-                        "start_connected": False,
-                        "allow_guest_control": False
-                    }
-                ],
-                "parallel_ports": [
-                    {
-                        "backing": {
-                            "type": "file",
-                            "file": "[datastore1] parallel/output.log"  # Update with your actual file path
-                        },
-                        "start_connected": False,
-                        "allow_guest_control": False
-                    }
-                ],
-                "serial_ports": [
-                    {
-                        "yield_on_poll": False,
-                        "backing": {
-                            "type": "network",
-                            "network_location": "tcp://localhost:10000"  # Update with your actual network location
-                        },
-                        "start_connected": False,
-                        "allow_guest_control": False
-                    }
-                ],
-                "sata_adapters": [
-                    {
-                        "type": "sata",
-                        "bus": 0,
-                        "pci_slot_number": 32
-                    }
-                ],
-                "scsi_adapters": [
-                    {
-                        "type": "pvscsi",
-                        "bus": 0,
-                        "pci_slot_number": 33,
-                        "sharing": "noSharing"
-                    }
-                ],
-                "nvme_adapters": [
-                    {
-                        "bus": 0,
-                        "pci_slot_number": 34
-                    }
-                ],
-                "storage_policy": {
-                    "policy": "policy-123"  # Update with your actual storage policy ID
                 }
+            ],
+            "nics": [
+                {
+                    "type": "vmxnet3",  # or "e1000", "e1000e", etc.
+                    "upt_compatibility_enabled": False,
+                    "mac_type": "manual",
+                    "mac_address": "00:50:56:XX:YY:ZZ",  # Update with your actual MAC address
+                    "pci_slot_number": 160,
+                    "wake_on_lan_enabled": True,
+                    "backing": {
+                        "type": "standard_portgroup",
+                        "network": "palo-to-vm",  # Update with your actual network ID
+                        "distributed_port": ""  # If using distributed port
+                    },
+                    "start_connected": True,
+                    "allow_guest_control": True
+                }
+            ],
+            "cdroms": [
+                {
+                    "type": "iso",
+                    "backing": {
+                        "type": "iso_file",
+                        "iso_file": "[datastore1] iso/ubuntu.iso",  # Update with your actual ISO path
+                        "device_access_type": "readOnly"
+                    },
+                    "start_connected": True,
+                    "allow_guest_control": True
+                }
+            ],
+            "floppies": [
+                {
+                    "backing": {
+                        "type": "image_file",
+                        "image_file": "[datastore1] floppies/dos.img"  # Update with your actual image file path
+                    },
+                    "start_connected": False,
+                    "allow_guest_control": False
+                }
+            ],
+            "parallel_ports": [
+                {
+                    "backing": {
+                        "type": "file",
+                        "file": "[datastore1] parallel/output.log"  # Update with your actual file path
+                    },
+                    "start_connected": False,
+                    "allow_guest_control": False
+                }
+            ],
+            "serial_ports": [
+                {
+                    "yield_on_poll": False,
+                    "backing": {
+                        "type": "network",
+                        "network_location": "tcp://localhost:10000"  # Update with your actual network location
+                    },
+                    "start_connected": False,
+                    "allow_guest_control": False
+                }
+            ],
+            "sata_adapters": [
+                {
+                    "type": "sata",
+                    "bus": 0,
+                    "pci_slot_number": 32
+                }
+            ],
+            "scsi_adapters": [
+                {
+                    "type": "pvscsi",
+                    "bus": 0,
+                    "pci_slot_number": 33,
+                    "sharing": "noSharing"
+                }
+            ],
+            "nvme_adapters": [
+                {
+                    "bus": 0,
+                    "pci_slot_number": 34
+                }
+            ],
+            "storage_policy": {
+                "policy": "policy-123"  # Update with your actual storage policy ID
             }
         }
 
