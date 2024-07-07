@@ -77,7 +77,7 @@ def create_vm(session_id, os):
         response = requests.post(
             f"https://{VS_HOST}/rest/vcenter/vm",
             headers=headers,
-            json=data,
+            json=json.dumps(data),
             verify=False
         )
         response.raise_for_status()
